@@ -7,27 +7,41 @@ function! CocInitialise()
   endif
 
   set updatetime=300
-  set shortmess+=c
   set signcolumn=yes
-  set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+  let g:lightline = {
+	\ 'colorscheme': 'wombat',
+	\ 'active': {
+	\   'left': [ [ 'mode', 'paste' ],
+	\             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+	\ },
+	\ 'component_function': {
+	\   'cocstatus': 'coc#status'
+	\ },
+	\ }
 
-  function! s:check_back_space() abort
+  autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+  inoremap <silent><expr> <TAB>
+        \ coc#pum#visible() ? coc#pum#next(1) :
+        \ CheckBackspace() ? "\<Tab>" :
+        \ coc#refresh()
+  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+  " Make <CR> to accept selected completion item or notify coc.nvim to format
+  " <C-g>u breaks current undo, please make your own choice
+  inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                                \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+  function! CheckBackspace() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
 
-  inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-  inoremap <silent><expr> <c-space> coc#refresh()
-
-  if exists('*complete_info')
-    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+  " Use <c-space> to trigger completion
+  if has('nvim')
+    inoremap <silent><expr> <c-space> coc#refresh()
   else
-    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <silent><expr> <c-@> coc#refresh()
   endif
 
   nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -38,17 +52,19 @@ function! CocInitialise()
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
 
-  nmap <leader>rn <Plug>(coc-rename)
+  nnoremap <silent> K :call ShowDocumentation()<CR>
 
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
+  function! ShowDocumentation()
+    if CocAction('hasProvider', 'hover')
+      call CocActionAsync('doHover')
     else
-      call CocAction('doHover')
+      call feedkeys('K', 'in')
     endif
   endfunction
 
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  nmap <leader>rn <Plug>(coc-rename)
 
   function! FindCursorPopUp()
      let radius = get(a:000, 0, 2)
