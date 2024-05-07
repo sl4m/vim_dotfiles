@@ -99,7 +99,7 @@ function! CocInitialise()
    nnoremap <expr> <c-d> ScrollPopUp(1) ? '<esc>' : '<c-d>'
    nnoremap <expr> <c-u> ScrollPopUp(0) ? '<esc>' : '<c-u>'
 
-   # https://vim.fandom.com/wiki/Xterm256_color_names_for_console_Vim
+   " https://vim.fandom.com/wiki/Xterm256_color_names_for_console_Vim
    hi CocInlayHint guifg=#6c6c6c ctermfg=242
 endfunction
 
