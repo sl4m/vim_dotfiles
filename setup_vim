@@ -8,7 +8,7 @@ then
 fi
 
 echo ""
-read -n 1 -s -r -p "This will replace your existing ~/.vim and ~/.vimrc. Press any key to continue..."
+read -n 1 -s -r -p "WARNING: This will replace your existing ~/.vim and ~/.vimrc. Press any key to continue..."
 
 rm -rf ~/.vim
 rm -rf ~/.vimrc
