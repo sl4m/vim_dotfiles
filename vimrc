@@ -53,6 +53,9 @@ if executable('ag')
   let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
 
+" leave paste mode when leaving insert mode (if it was on)
+autocmd InsertLeave * set nopaste
+
 " highlight trailing whitespace
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd BufRead,InsertLeave * match ExtraWhitespace /\s\+$/

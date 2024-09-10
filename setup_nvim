@@ -8,17 +8,33 @@ then
 fi
 
 echo ""
-read -n 1 -s -r -p "This will replace your existing ~/.config/nvim/init.vim, ~/.vim and ~/.vimrc. Press any key to continue..."
+read -n 1 -s -r -p "WARNING: This will replace your existing init.lua, colors, and ALL lua files under ~/.config/nvim/{config,plugins}. Press any key to continue..."
 
-rm -rf ~/.config/nvim/init.vim
-rm -rf ~/.vim
-rm -rf ~/.vimrc
-mkdir -p ~/.config/nvim
-ln -s $(pwd)/init.vim ~/.config/nvim/init.vim
-ln -s $(pwd)/vim ~/.vim
-ln -s $(pwd)/vimrc ~/.vimrc
+rm -rf ~/.config/nvim/init.lua
+ln -s $(pwd)/nvim/init.lua ~/.config/nvim/.
 
-nvim +PlugInstall +qall
+mkdir -p ~/.config/nvim/colors
+mkdir -p ~/.config/nvim/lua
+rm -rf ~/.config/nvim/lua/config
+rm -rf ~/.config/nvim/lua/plugins
+
+# Only replace colorschemes that are in this repo
+for colorscheme in $(pwd)/nvim/colors/*.vim; do
+  path=~/.config/nvim/colors/$(basename "$colorscheme")
+  if [ -e "$path" ]; then
+    if [ ! -L "$path" ]; then
+      rm -rf "$path"
+      ln -s "$colorscheme" ~/.config/nvim/colors/.
+    fi
+  else
+    ln -s "$colorscheme" ~/.config/nvim/colors/.
+  fi
+done
+
+ln -s $(pwd)/nvim/lua/config ~/.config/nvim/lua/config
+ln -s $(pwd)/nvim/lua/plugins ~/.config/nvim/lua/plugins
+
+nvim +MasonInstallAll +qall
 
 echo -e "\n\n"
 echo "nvim setup complete ✓"
