@@ -4,7 +4,6 @@ local map = vim.keymap.set
 map("n", "/", "/\\v", { noremap = true })
 map("v", "/", "/\\v", { noremap = true })
 map("n", "<leader><space>", ":noh<CR>:call clearmatches()<CR>", { noremap = true, silent = true })
-map("n", "<leader>a", ":Ack<space>", { noremap = true })
 
 -- Trim whitespaces
 map("n", "<LocalLeader>ws", ":highlight clear ExtraWhitespace<CR>", { noremap = true, silent = true })
