@@ -9,12 +9,10 @@ This repo contains both vim and Neovim configurations. Choose your own path.
 
 * neovim
 * fzf (fuzzy finder)
+* go
+* rust
 
-For macOS, install the latest stable `neovim` and `fzf via homebrew:
-
-    homebrew install fzf neovim
-
-For Linux, use your distro's package manager.
+Use your favourite package manager to install the dependencies.
 
 These dotfiles work on neovim 0.9.2 or later.
 
