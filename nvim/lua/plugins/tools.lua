@@ -8,7 +8,14 @@ return {
       vim.keymap.set("", "<LocalLeader>t", require('fzf-lua').files)
     end
   },
-  { "itchyny/lightline.vim", },
+  {
+    "itchyny/lightline.vim",
+    config = function()
+      vim.g.lightline = {
+        colorscheme = "Tomorrow_Night"
+      }
+    end,
+  },
   {
     "williamboman/mason.nvim",
     config = function()
