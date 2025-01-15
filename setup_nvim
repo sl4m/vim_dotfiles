@@ -10,6 +10,7 @@ fi
 echo ""
 read -n 1 -s -r -p "WARNING: This will replace your existing init.lua, colors, and ALL lua files under ~/.config/nvim/{config,plugins}. Press any key to continue..."
 
+mkdir -p ~/.config/nvim
 rm -rf ~/.config/nvim/init.lua
 ln -s $(pwd)/nvim/init.lua ~/.config/nvim/.
 

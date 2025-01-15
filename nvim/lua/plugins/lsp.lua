@@ -7,6 +7,7 @@ return {
       -- Setup language servers.
       local lspconfig = require("lspconfig")
 
+      -- Go
       lspconfig.gopls.setup {
         settings = {
           gopls = {
