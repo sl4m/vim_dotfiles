@@ -22,14 +22,8 @@ rm -rf ~/.config/nvim/lua/plugins
 # Only replace colorschemes that are in this repo
 for colorscheme in $(pwd)/nvim/colors/*.vim; do
   path=~/.config/nvim/colors/$(basename "$colorscheme")
-  if [ -e "$path" ]; then
-    if [ ! -L "$path" ]; then
-      rm -rf "$path"
-      ln -s "$colorscheme" ~/.config/nvim/colors/.
-    fi
-  else
-    ln -s "$colorscheme" ~/.config/nvim/colors/.
-  fi
+  rm -rf "$path"
+  ln -s "$colorscheme" ~/.config/nvim/colors/.
 done
 
 ln -s $(pwd)/nvim/lua/config ~/.config/nvim/lua/config
