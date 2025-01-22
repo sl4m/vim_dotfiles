@@ -7,6 +7,7 @@ return {
   "diff",
   "fish",
   "go",
+  "hcl",
   "html",
   "java",
   "javascript",
